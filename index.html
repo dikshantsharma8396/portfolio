@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dikshant Sharma — Cybersecurity</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #050a0f;
+  --bg2: #0a1018;
+  --accent: #00e5ff;
+  --accent2: #00ff88;
+  --accent3: #ff3c6e;
+  --text: #e8f4f8;
+  --muted: #5a7a8a;
+  --border: #1a2d3a;
+  --card: #0c1620;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Syne', sans-serif;
+}
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none; z-index: 0;
+}
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 200;
+  background: rgba(5,10,15,0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-inner {
+  max-width: 1100px; margin: 0 auto;
+  padding: 0.9rem 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo {
+  font-family: var(--mono); font-size: 1rem;
+  color: var(--accent); text-decoration: none; letter-spacing: 0.05em;
+}
+.nav-logo span { color: var(--muted); }
+.nav-links { display: flex; gap: 0.4rem; list-style: none; }
+.nav-links button {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--muted); background: none; border: 1px solid transparent;
+  padding: 0.45rem 1.1rem; border-radius: 3px; cursor: pointer;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav-links button:hover { color: var(--accent); border-color: var(--border); }
+.nav-links button.active { color: var(--accent); border-color: rgba(0,229,255,0.35); background: rgba(0,229,255,0.05); }
+
+/* HERO — always visible */
+.hero {
+  position: fixed; inset: 0;
+  display: flex; align-items: center;
+  padding: 5rem 2rem 2rem;
+  z-index: 1;
+  transition: opacity 0.4s, filter 0.4s;
+}
+.hero.dimmed { opacity: 0.18; filter: blur(2px); pointer-events: none; }
+.hero-glow {
+  position: absolute; top: 15%; right: -8%;
+  width: 550px; height: 550px;
+  background: radial-gradient(circle, rgba(0,229,255,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; position: relative; z-index: 1; }
+.hero-tag {
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--accent); letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 0.75rem;
+}
+.hero-tag::before { content:''; display:block; width:32px; height:1px; background:var(--accent); }
+.status-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.72rem; color: var(--accent2);
+  border: 1px solid rgba(0,255,136,0.25);
+  padding: 0.35rem 0.9rem; border-radius: 2px; margin-bottom: 1.5rem;
+}
+.status-dot {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent2);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(0,255,136,0.4)}
+  50%{opacity:.7;box-shadow:0 0 0 5px rgba(0,255,136,0)}
+}
+.hero h1 {
+  font-family: var(--sans);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 800; line-height: 1.0;
+  letter-spacing: -0.02em; margin-bottom: 0.5rem;
+}
+.hero h1 .na { color: var(--accent); }
+.hero-sub {
+  font-family: var(--mono); font-size: 1rem;
+  color: var(--muted); margin-bottom: 2rem; letter-spacing: 0.05em;
+}
+.hero-sub .blink { color: var(--accent2); animation: blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+.hero-desc {
+  font-size: 1.05rem; color: #8ca8b8;
+  max-width: 520px; line-height: 1.8; margin-bottom: 2.5rem;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+.btn {
+  font-family: var(--mono); font-size: 0.85rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 0.8rem 1.8rem; border-radius: 3px;
+  cursor: pointer; transition: all 0.2s; border: none;
+}
+.btn-primary { background: var(--accent); color: #050a0f; font-weight: 700; }
+.btn-primary:hover { background: #33eeff; transform: translateY(-2px); }
+.btn-outline { border: 1px solid var(--border); color: var(--muted); background: none; }
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+/* PANEL OVERLAY */
+.panel-overlay {
+  position: fixed; inset: 0;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.panel-overlay.open { opacity: 1; pointer-events: all; }
+
+.panel-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(3,7,12,0.7);
+  backdrop-filter: blur(4px);
+}
+
+.panel {
+  position: absolute;
+  top: 58px; right: 0; bottom: 0;
+  width: min(680px, 100%);
+  background: var(--bg2);
+  border-left: 1px solid var(--border);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.38s cubic-bezier(.22,.68,0,1.2);
+  padding: 2.5rem 2.5rem 3rem;
+}
+.panel-overlay.open .panel { transform: translateX(0); }
+
+.panel-close {
+  position: absolute; top: 1.2rem; right: 1.5rem;
+  background: none; border: 1px solid var(--border);
+  color: var(--muted); font-family: var(--mono); font-size: 0.75rem;
+  padding: 0.35rem 0.8rem; border-radius: 3px; cursor: pointer;
+  letter-spacing: 0.1em;
+  transition: color 0.2s, border-color 0.2s;
+}
+.panel-close:hover { color: var(--accent); border-color: var(--accent); }
+
+.panel-title {
+  font-family: var(--sans); font-size: 2rem; font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 0.4rem; margin-top: 0.2rem;
+}
+.panel-eyebrow {
+  font-family: var(--mono); font-size: 0.72rem; color: var(--accent);
+  letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 2rem;
+  display: flex; align-items: center; gap: 0.6rem;
+}
+.panel-eyebrow::after { content:''; flex:1; height:1px; background: var(--border); }
+.panel-divider { height: 1px; background: var(--border); margin: 2rem 0; }
+
+/* ABOUT panel */
+.about-text p { color: #8ca8b8; margin-bottom: 1.2rem; line-height: 1.9; font-size: 0.97rem; }
+.stats-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.85rem; margin-top: 1.5rem; }
+.stat-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-top: 2px solid var(--accent);
+  padding: 1.2rem; border-radius: 4px;
+}
+.stat-num { font-family: var(--mono); font-size: 2rem; font-weight: 700; color: var(--accent); display: block; }
+.stat-label { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+/* SKILLS panel */
+.skills-grid { display: flex; flex-direction: column; gap: 0.65rem; }
+.skill-item {
+  background: var(--card); border: 1px solid var(--border);
+  padding: 0.85rem 1.1rem; border-radius: 3px;
+  display: flex; align-items: center; gap: 0.75rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.skill-item:hover { border-color: var(--accent); transform: translateX(5px); }
+.skill-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.skill-name { font-family: var(--mono); font-size: 0.9rem; color: var(--text); }
+.skill-cat { font-family: var(--mono); font-size: 0.68rem; color: var(--muted); margin-left: auto; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* PROJECTS panel */
+.project-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 5px; padding: 1.6rem;
+  margin-bottom: 1.2rem; position: relative; overflow: hidden;
+  transition: border-color 0.25s;
+}
+.project-card::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; }
+.project-card.p1::before { background: var(--accent); }
+.project-card.p2::before { background: var(--accent2); }
+.project-card:hover { border-color: rgba(0,229,255,0.3); }
+.project-num { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); margin-bottom: 0.6rem; letter-spacing: 0.15em; }
+.project-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.3rem; }
+.project-subtitle { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); margin-bottom: 1rem; }
+.project-desc { font-size: 0.92rem; color: #7a9aaa; line-height: 1.8; margin-bottom: 1.2rem; }
+.tech-stack { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.tech-tag {
+  font-family: var(--mono); font-size: 0.68rem; color: var(--accent);
+  border: 1px solid rgba(0,229,255,0.25); padding: 0.28rem 0.65rem;
+  border-radius: 2px; background: rgba(0,229,255,0.04);
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* ACHIEVEMENTS panel */
+.ach-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 5px; padding: 2rem;
+  display: flex; gap: 1.5rem; align-items: flex-start;
+}
+.ach-icon {
+  width: 58px; height: 58px; flex-shrink: 0;
+  background: rgba(0,229,255,0.07); border: 1px solid rgba(0,229,255,0.2);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.8rem;
+}
+.ach-title { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.3rem; }
+.ach-org { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); margin-bottom: 0.9rem; }
+.ach-desc { font-size: 0.92rem; color: #7a9aaa; line-height: 1.8; }
+.ach-badge {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--mono); font-size: 0.68rem;
+  background: rgba(255,196,0,0.07); color: #ffc400;
+  border: 1px solid rgba(255,196,0,0.2);
+  padding: 0.3rem 0.75rem; border-radius: 2px; margin-top: 0.9rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+
+/* CONTACT panel */
+.contact-links { display: flex; flex-direction: column; gap: 0.9rem; }
+.contact-link {
+  display: flex; align-items: center; gap: 1rem;
+  background: var(--card); border: 1px solid var(--border);
+  padding: 1rem 1.3rem; border-radius: 4px;
+  text-decoration: none; color: var(--text);
+  transition: border-color 0.2s, transform 0.2s;
+  font-family: var(--mono); font-size: 0.83rem;
+}
+.contact-link:hover { border-color: var(--accent); transform: translateX(6px); color: var(--accent); }
+.contact-link-icon {
+  width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+  border-radius: 3px; font-size: 1rem; flex-shrink: 0;
+}
+.cl-label { color: var(--muted); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; display: block; margin-bottom: 2px; }
+.terminal-block {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 4px; padding: 1.4rem; margin-top: 1.5rem;
+}
+.terminal-block h4 { font-family: var(--mono); font-size: 0.78rem; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; }
+.t-line {
+  font-family: var(--mono); font-size: 0.8rem; color: var(--muted);
+  padding: 0.38rem 0; border-bottom: 1px solid var(--border);
+  display: flex; gap: 1rem;
+}
+.t-line:last-child { border-bottom: none; }
+.t-key { color: var(--accent2); min-width: 90px; }
+.t-val { color: var(--text); }
+
+@media(max-width:600px){
+  .nav-links button { padding: 0.4rem 0.6rem; font-size: 0.7rem; }
+  .panel { width: 100%; border-left: none; }
+  .ach-card { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">DS<span>://</span>portfolio</a>
+    <ul class="nav-links">
+      <li><button onclick="openPanel('about')" id="btn-about">About</button></li>
+      <li><button onclick="openPanel('skills')" id="btn-skills">Skills</button></li>
+      <li><button onclick="openPanel('projects')" id="btn-projects">Projects</button></li>
+      <li><button onclick="openPanel('achievements')" id="btn-achievements">Achievements</button></li>
+      <li><button onclick="openPanel('contact')" id="btn-contact">Contact</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO (always visible) -->
+<section class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-tag">Cybersecurity Portfolio</div>
+    <div class="status-badge">
+      <div class="status-dot"></div>
+      Available for opportunities
+    </div>
+    <h1>DIKSHANT<br><span class="na">SHARMA</span></h1>
+    <p class="hero-sub">$ whoami — Cybersecurity Enthusiast<span class="blink">_</span></p>
+    <p class="hero-desc">
+      Passionate about ethical hacking, network security, and building tools that defend the digital frontier. Turning vulnerabilities into solutions, one exploit at a time.
+    </p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="openPanel('projects')">View Projects</button>
+      <button class="btn btn-outline" onclick="openPanel('contact')">Get in Touch</button>
+    </div>
+  </div>
+</section>
+
+<!-- PANEL OVERLAY -->
+<div class="panel-overlay" id="overlay">
+  <div class="panel-backdrop" onclick="closePanel()"></div>
+  <div class="panel" id="panel-content">
+    <button class="panel-close" onclick="closePanel()">✕ close</button>
+    <!-- content injected by JS -->
+  </div>
+</div>
+
+<script>
+const panels = {
+  about: `
+    <div class="panel-eyebrow">01 — about</div>
+    <h2 class="panel-title">About Me</h2>
+    <div class="about-text">
+      <p>I'm Dikshant Sharma, a cybersecurity enthusiast driven by curiosity and a passion for understanding how systems can be protected — and how they can be broken to be made stronger.</p>
+      <p>My focus spans web application security, network reconnaissance, and building practical tools that solve real-world challenges. I believe the best defenders think like attackers.</p>
+      <p>From scanning phishing URLs with AI to competing in hackathons, I'm constantly pushing the boundaries of what I can learn and build in the security space.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-num">2+</span><span class="stat-label">Projects Built</span></div>
+      <div class="stat-card"><span class="stat-num">1</span><span class="stat-label">Hackathon Won</span></div>
+      <div class="stat-card"><span class="stat-num">8+</span><span class="stat-label">Tools Mastered</span></div>
+      <div class="stat-card"><span class="stat-num">∞</span><span class="stat-label">Curiosity Level</span></div>
+    </div>`,
+
+  skills: `
+    <div class="panel-eyebrow">02 — skills</div>
+    <h2 class="panel-title">Skills & Tools</h2>
+    <div class="skills-grid">
+      <div class="skill-item"><div class="skill-dot" style="background:#3572ef"></div><span class="skill-name">Python</span><span class="skill-cat">language</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#e34c26"></div><span class="skill-name">HTML</span><span class="skill-cat">web</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#264de4"></div><span class="skill-name">CSS</span><span class="skill-cat">web</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#4eaa25"></div><span class="skill-name">Bash Scripting</span><span class="skill-cat">language</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#ff3c6e"></div><span class="skill-name">Metasploit</span><span class="skill-cat">exploit</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#ff6633"></div><span class="skill-name">Burp Suite</span><span class="skill-cat">web sec</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#00e5ff"></div><span class="skill-name">Nmap</span><span class="skill-cat">recon</span></div>
+      <div class="skill-item"><div class="skill-dot" style="background:#00ff88"></div><span class="skill-name">Wireshark</span><span class="skill-cat">network</span></div>
+    </div>`,
+
+  projects: `
+    <div class="panel-eyebrow">03 — projects</div>
+    <h2 class="panel-title">Projects</h2>
+    <div class="project-card p1">
+      <div class="project-num">// PROJECT 01</div>
+      <h3 class="project-title">SafeSurf AI</h3>
+      <p class="project-subtitle">Phishing URL Scanner</p>
+      <p class="project-desc">An AI-powered tool that analyzes URLs in real-time to detect phishing attempts and malicious websites. Leverages machine learning to identify patterns associated with social engineering attacks, helping users browse safely.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Machine Learning</span>
+        <span class="tech-tag">URL Analysis</span>
+        <span class="tech-tag">Threat Intel</span>
+      </div>
+    </div>
+    <div class="project-card p2">
+      <div class="project-num">// PROJECT 02</div>
+      <h3 class="project-title">Event Management</h3>
+      <p class="project-subtitle">Full-Stack Web Application</p>
+      <p class="project-desc">A comprehensive event management platform built with clean UI and robust functionality. Handles event creation, attendee management, and scheduling — demonstrating full-stack development capabilities alongside security-conscious design.</p>
+      <div class="tech-stack">
+        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">CSS</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">Web Dev</span>
+      </div>
+    </div>`,
+
+  achievements: `
+    <div class="panel-eyebrow">04 — achievements</div>
+    <h2 class="panel-title">Achievements</h2>
+    <div class="ach-card">
+      <div class="ach-icon">🏆</div>
+      <div>
+        <h3 class="ach-title">Cybersecurity Hackathon Winner</h3>
+        <p class="ach-org">DUTT IT SOLUTIONS — Neemrana</p>
+        <p class="ach-desc">Secured first place at a competitive cybersecurity hackathon conducted by DUTT IT Solutions in Neemrana. Demonstrated exceptional skills in identifying vulnerabilities, crafting defensive solutions, and presenting findings under pressure — beating out all competing teams.</p>
+        <span class="ach-badge">★ 1st Place Winner</span>
+      </div>
+    </div>`,
+
+  contact: `
+    <div class="panel-eyebrow">05 — contact</div>
+    <h2 class="panel-title">Get in Touch</h2>
+    <p style="color:#8ca8b8;font-size:0.97rem;line-height:1.85;margin-bottom:1.75rem;">Interested in collaborating, have a security challenge, or want to connect? Always open to new opportunities in the cybersecurity space.</p>
+    <div class="contact-links">
+      <a href="mailto:dikshantsharma8396@gmail.com" class="contact-link">
+        <div class="contact-link-icon" style="background:rgba(255,60,110,0.1);color:#ff3c6e">✉</div>
+        <div><span class="cl-label">Email</span>dikshantsharma8396@gmail.com</div>
+      </a>
+      <a href="https://github.com/dikshantsharma8396" target="_blank" class="contact-link">
+        <div class="contact-link-icon" style="background:rgba(255,255,255,0.05);color:#ccc">⌥</div>
+        <div><span class="cl-label">GitHub</span>github.com/dikshantsharma8396</div>
+      </a>
+      <a href="https://linkedin.com/in/sharma-dikshantofficial" target="_blank" class="contact-link">
+        <div class="contact-link-icon" style="background:rgba(0,119,181,0.1);color:#0077b5">in</div>
+        <div><span class="cl-label">LinkedIn</span>linkedin.com/in/sharma-dikshantofficial</div>
+      </a>
+    </div>
+    <div class="terminal-block">
+      <h4>// system.info</h4>
+      <div class="t-line"><span class="t-key">name</span><span class="t-val">Dikshant Sharma</span></div>
+      <div class="t-line"><span class="t-key">role</span><span class="t-val">Cybersecurity Enthusiast</span></div>
+      <div class="t-line"><span class="t-key">location</span><span class="t-val">India</span></div>
+      <div class="t-line"><span class="t-key">status</span><span class="t-val" style="color:#00ff88">Open to Work ✓</span></div>
+      <div class="t-line"><span class="t-key">focus</span><span class="t-val">Ethical Hacking, AppSec</span></div>
+    </div>`
+};
+
+let current = null;
+
+function openPanel(id) {
+  document.getElementById('panel-content').innerHTML =
+    '<button class="panel-close" onclick="closePanel()">✕ close</button>' + panels[id];
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('hero').classList.add('dimmed');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  document.getElementById('btn-' + id).classList.add('active');
+  current = id;
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('hero').classList.remove('dimmed');
+  document.querySelectorAll('.nav-links button').forEach(b => b.classList.remove('active'));
+  current = null;
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePanel(); });
+</script>
+</body>
+</html>
